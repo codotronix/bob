@@ -78,8 +78,9 @@
     * This function is called when player is colliding
     */
     function playerCollision (collidingObj) {
+        stopContinuousMovement();
         if (collidingObj.type === "WALL") {
-            player.turnAround();
+            player.turnAround();            
         }
         else if(collidingObj.type === "FLAG") {
             _pause();
@@ -212,7 +213,8 @@
     */
     function randomMovementOnTick () {
         for (var i in balls) {
-            cxgf.Ticker.onTick(balls[i].move, balls[i], 5);
+            //cxgf.Ticker.onTick(balls[i].move, balls[i], 5);
+            balls[i].startContinuousMove(5, true);
         }
     }
 
@@ -260,9 +262,6 @@
     * direction until another direction key is clicked
     ********************************************************************/
 
-    var continousMovementOn = false;
-    var continuousTickerRef;
-
     $('#left-joystick .left').on("touchstart", function () {
         doContinuousMove("W");
     });
@@ -281,17 +280,7 @@
 
     function doContinuousMove (direction) {
         player.direction = direction;
-        if(!continousMovementOn) {
-            continuousTickerRef = window.cxgf.Ticker.onTick(moveContinuously, undefined, 3);
-            continousMovementOn = true;
-        }
-    }
-
-    // For touch controls only:
-    // on each tick this will be called
-    function moveContinuously () {
-        player.move.bind(player)(player.direction);
-        //player.move.apply(player, player.direction);
+        player.startContinuousMove(3);
     }
 
     /*
@@ -300,12 +289,7 @@
     * Resets the vars
     */
     function stopContinuousMovement () {
-        //reset the touchscreen vars   
-        if (continuousTickerRef) {
-            cxgf.Ticker.removeTick(continuousTickerRef);
-            continuousTickerRef = undefined;
-            continousMovementOn = false;
-        }
+        player.stopContinuousMove();
     }
 
 })();
