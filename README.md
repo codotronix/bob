@@ -1,2 +1,2 @@
-# bob
-Beware of Boxes
+# Beware of Boxes
+Demo game created using my framework CXGF
