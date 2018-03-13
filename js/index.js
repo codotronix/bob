@@ -2,9 +2,9 @@
 
     var worldWidth = $('#game-arena').width();
     var worldHeight = $('#game-arena').height();
-    
-    
-    var numberOfBalls = 20;
+
+    //no of enemies can be passed as query string ?enemy=20
+    var numberOfBalls = parseInt(window.location.href.substr(window.location.href.indexOf('enemy=')+'enemy='.length)) || 20;
     var balls = [];
     var boundaries = [];
 
